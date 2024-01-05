@@ -6,9 +6,15 @@ const server = express();
 server.use(express.json());
 
 server.get("/books", async (req, res) => {
+  const pages = req.query.page || 0;
+  const pageLimit = 5;
   const db = getDB().collection("books");
   //const collection = db.collection("books");
-  const data = await db.find().toArray();
+  const data = await db
+    .find()
+    .skip(pages * pageLimit)
+    .limit(pageLimit)
+    .toArray();
   res.status(200).json({ response: data });
 });
 
