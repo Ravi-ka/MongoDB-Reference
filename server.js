@@ -3,6 +3,7 @@ import { ConnectToMongoDB, getDB } from "./src/config/MongoDBConnection.js";
 import { ObjectId } from "mongodb";
 
 const server = express();
+server.use(express.json());
 
 server.get("/books", async (req, res) => {
   const db = getDB().collection("books");
@@ -24,6 +25,20 @@ server.get("/books/:id", async (req, res) => {
     } else {
       return res.json({ msg: "Not a valid ID" });
     }
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ status: false, msg: "Internal Server Error" });
+  }
+});
+
+server.post("/books", async (req, res) => {
+  try {
+    const newData = req.body;
+    const db = getDB().collection("books");
+    await db.insertOne(newData);
+    return res.status(201).json({ result: "success", response: newData });
   } catch (error) {
     console.log(error);
     return res
