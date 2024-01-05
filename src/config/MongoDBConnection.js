@@ -1,6 +1,7 @@
 import { MongoClient } from "mongodb";
 
-const url = "mongodb://localhost:27017/bookStore";
+const url =
+  "mongodb+srv://ka_ravisankar:Qwaszxopklnm06@cluster0.akmryci.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(url);
 
 export const ConnectToMongoDB = async () => {
